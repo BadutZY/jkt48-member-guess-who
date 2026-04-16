@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Heart, Flag, Check, X, ArrowLeftRight } from 'lucide-react';
+import { Heart, Flag, Check, X, ArrowLeftRight, RefreshCw } from 'lucide-react';
 import { useRoom } from '@/contexts/RoomContext';
 import { GameState, LastGuessAction, TurnAction } from '@/lib/supabase';
 import { getItemsForMode, getModeImageMode } from '@/lib/gameUtils';
@@ -127,8 +127,21 @@ const OnlineGameBoard = () => {
   const lastAlertTimestamp = useRef<string | null>(null);
   const [showTurnAlert, setShowTurnAlert] = useState(false);
   const lastTurnChangedAt = useRef<string | null>(null);
-  // Antrian turn alert: jika guess alert sedang tampil, tahan dulu
   const pendingTurnAlert = useRef(false);
+
+  // Mengukur tinggi footer secara dinamis agar main tidak tertutup
+  const footerRef = useRef<HTMLElement>(null);
+  const [footerHeight, setFooterHeight] = useState(72);
+  useEffect(() => {
+    const el = footerRef.current;
+    if (!el) return;
+    const obs = new ResizeObserver(entries => {
+      for (const e of entries) setFooterHeight(e.borderBoxSize?.[0]?.blockSize ?? e.contentRect.height + 2);
+    });
+    obs.observe(el);
+    setFooterHeight(el.getBoundingClientRect().height);
+    return () => obs.disconnect();
+  }, []);
 
   useEffect(() => {
     if (isRestoring) return;
@@ -152,7 +165,6 @@ const OnlineGameBoard = () => {
     lastTurnChangedAt.current = tca;
     const myKey: 'player1' | 'player2' = playerNumber === 1 ? 'player1' : 'player2';
     if (gs.current_turn === myKey) {
-      // Jika guess alert sedang tampil (timestamp sama), tahan — muncul setelah OK
       if (gs.last_guess_action && gs.last_guess_action.timestamp === lastAlertTimestamp.current) {
         pendingTurnAlert.current = true;
       } else {
@@ -196,7 +208,6 @@ const OnlineGameBoard = () => {
   const winnerName    = gs.winner === 'player1' ? room.player1_name : gs.winner === 'player2' ? room.player2_name : null;
   const wasDisconnect = gs.turn_actions?.some(a => a.type === 'disconnect');
 
-  // Sistem giliran
   const currentTurn = (gs.current_turn ?? 'player1') as 'player1' | 'player2';
   const isMyTurn    = currentTurn === myPlayer;
   const myName      = isP1 ? room.player1_name : room.player2_name ?? 'Kamu';
@@ -204,7 +215,7 @@ const OnlineGameBoard = () => {
   /* ── Handlers ── */
   const handleToggleEliminate = async (id: string) => {
     if (gameOver || !isMyTurn) return;
-    if (guessingMode) { setPendingGuess(id); setGuessingMode(false); return; }
+    if (guessingMode) { setPendingGuess(id); return; }
     if (maxReached || myCorrect) return;
     const next = new Set(myEliminated);
     if (next.has(id)) next.delete(id); else next.add(id);
@@ -213,10 +224,20 @@ const OnlineGameBoard = () => {
 
   const handleStartGuess = () => {
     if (maxReached || gameOver || myCorrect || !isMyTurn) return;
-    setPendingGuess(null); setGuessingMode(true);
+    setPendingGuess(null);
+    setGuessingMode(true);
   };
 
-  const handleCancelGuess = () => { setGuessingMode(false); setPendingGuess(null); };
+  const handleCancelGuess = () => {
+    setGuessingMode(false);
+    setPendingGuess(null);
+  };
+
+  // Reset pilihan tapi tetap di mode tebak supaya bisa pilih ulang
+  const handleChangeGuess = () => {
+    setPendingGuess(null);
+    setGuessingMode(true);
+  };
 
   const handleConfirmGuess = async () => {
     if (!pendingGuess) return;
@@ -238,7 +259,6 @@ const OnlineGameBoard = () => {
     else if (p2correct && p1guesses >= MAX_GUESSES && !p1correct)                               winner = 'player2';
     else if (p1guesses >= MAX_GUESSES && p2guesses >= MAX_GUESSES && !p1correct && !p2correct)  winner = 'draw';
 
-    // Setelah mengunci jawaban, otomatis pindah giliran ke lawan (jika belum game over)
     const opponentKey: 'player1' | 'player2' = myPlayer === 'player1' ? 'player2' : 'player1';
     const opponentAlreadyLocked = myPlayer === 'player1'
       ? (p2guesses >= MAX_GUESSES || p2correct)
@@ -246,16 +266,15 @@ const OnlineGameBoard = () => {
     const nextTurn = winner !== null ? currentTurn : opponentAlreadyLocked ? currentTurn : opponentKey;
     const turnChangedAt = winner !== null || opponentAlreadyLocked ? gs.turn_changed_at : new Date().toISOString();
 
-    setPendingGuess(null); setGuessingMode(false);
+    setPendingGuess(null);
+    setGuessingMode(false);
     await updateRoom({ game_state: { ...gs, player1_guesses: p1guesses, player2_guesses: p2guesses, player1_correct: p1correct, player2_correct: p2correct, winner, current_turn: nextTurn, turn_changed_at: turnChangedAt, turn_actions: [...gs.turn_actions, action], last_guess_action: lga } });
   };
 
-  // Cek apakah salah satu pemain sudah mengunci jawaban (benar atau sudah habis tebakan)
   const anyPlayerLocked = myCorrect || maxReached || opponentCorrect || opponentGuesses >= MAX_GUESSES;
 
   const handleSwitchTurn = async () => {
     if (gameOver || !isMyTurn) return;
-    // Tidak boleh ganti giliran manual jika sudah ada pemain yang mengunci jawaban
     if (anyPlayerLocked) return;
     const nextTurn: 'player1' | 'player2' = currentTurn === 'player1' ? 'player2' : 'player1';
     await updateRoom({ game_state: { ...gs, current_turn: nextTurn, turn_changed_at: new Date().toISOString() } });
@@ -273,20 +292,18 @@ const OnlineGameBoard = () => {
   };
 
   const alertGuesserName = shownGuessAlert?.by === 'player1' ? room.player1_name : room.player2_name ?? '';
+  const isInGuessFlow = guessingMode || !!pendingGuess;
 
   return (
     <div className="min-h-screen flex flex-col bg-background overflow-hidden">
 
-      {/* Alert Giliran */}
       {showTurnAlert && !gameOver && (
         <TurnAlert playerName={myName ?? 'Kamu'} onClose={() => setShowTurnAlert(false)} />
       )}
 
-      {/* Alert Tebakan */}
       {shownGuessAlert && !gameOver && (
         <GuessAlert action={shownGuessAlert} myPlayerKey={myPlayer} imageMode={imageMode} guesserName={alertGuesserName} onClose={() => {
           setShownGuessAlert(null);
-          // Jika ada turn alert yang tertahan, tampilkan sekarang
           if (pendingTurnAlert.current) {
             pendingTurnAlert.current = false;
             setTimeout(() => setShowTurnAlert(true), 300);
@@ -294,7 +311,6 @@ const OnlineGameBoard = () => {
         }} />
       )}
 
-      {/* Modal Menyerah */}
       {showSurrenderConfirm && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-background/80 backdrop-blur-sm animate-fade-in px-4">
           <div className="clip-angle bg-card border border-destructive/50 p-6 sm:p-8 max-w-sm w-full animate-scale-in text-center">
@@ -309,7 +325,6 @@ const OnlineGameBoard = () => {
         </div>
       )}
 
-      {/* Game Over */}
       {gameOver && (
         <div className="fixed inset-0 z-40 flex items-center justify-center bg-background/85 backdrop-blur-sm animate-fade-in px-4">
           <div className="clip-angle bg-card border border-border p-6 sm:p-8 max-w-sm w-full animate-scale-in text-center">
@@ -350,7 +365,6 @@ const OnlineGameBoard = () => {
         </div>
       )}
 
-      {/* Header */}
       <header className="border-b border-border px-3 sm:px-4 py-2.5 flex items-center justify-between shrink-0 animate-slide-down">
         <div className="flex items-center gap-2.5 text-xs min-w-0">
           <span className="text-muted-foreground whitespace-nowrap">Tersisa <span className="text-accent font-bold">{remaining}</span>/{items.length}</span>
@@ -373,14 +387,12 @@ const OnlineGameBoard = () => {
         </button>
       </header>
 
-      {/* Banner Giliran */}
       {!gameOver && (
         <div className={`px-4 py-2 text-center text-xs shrink-0 transition-all duration-500 ${isMyTurn ? 'bg-primary/15 border-b border-primary/40 text-primary font-semibold' : 'bg-secondary/30 border-b border-border text-muted-foreground'}`}>
           {isMyTurn ? 'Giliran kamu menebak' : `Giliran ${opponentName ?? 'lawan'} menebak`}
         </div>
       )}
 
-      {/* Item Rahasia */}
       {secretItem && (
         <div className="border-b border-border shrink-0" style={{ background: `${secretItem.color}08` }}>
           <div className="flex sm:hidden items-center gap-3 px-3 py-2.5">
@@ -416,35 +428,33 @@ const OnlineGameBoard = () => {
       )}
 
       {/* Banner mode tebak */}
-      {guessingMode && (
+      {guessingMode && !pendingGuess && (
         <div className="bg-primary/10 border-b border-primary/30 px-4 py-2 text-center text-sm text-primary animate-slide-down shrink-0 flex items-center justify-center gap-3">
           <Heart className="w-4 h-4 shrink-0" />
           <span>Mode Tebak — Klik item yang kamu duga milik lawan</span>
-          <button onClick={handleCancelGuess} className="shrink-0 text-muted-foreground hover:text-foreground transition-colors"><X className="w-4 h-4" /></button>
         </div>
       )}
 
-      {/* Konfirmasi tebakan */}
+      {/* Preview item yang dipilih */}
       {pendingGuess && pendingItem && (
         <div className="border-b border-primary/30 bg-primary/5 animate-scale-in shrink-0">
-          <div className="max-w-lg mx-auto px-4 py-3 flex items-center gap-3">
-            <div className="shrink-0 flex items-center justify-center" style={{ width: 44, height: 44, background: pendingItem.color + '15', border: `2px solid ${pendingItem.color}60`, clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))' }}>
+          <div className="max-w-lg mx-auto px-4 py-2.5 flex items-center gap-3">
+            <div className="shrink-0 flex items-center justify-center" style={{ width: 40, height: 40, background: pendingItem.color + '15', border: `2px solid ${pendingItem.color}60`, clipPath: 'polygon(0 0, calc(100% - 6px) 0, 100% 6px, 100% 100%, 6px 100%, 0 calc(100% - 6px))' }}>
               <img src={pendingItem.image} alt={pendingItem.name} className={`w-full h-full ${imageMode === 'contain' ? 'object-contain p-1' : 'object-cover'}`} />
             </div>
             <div className="flex-1 min-w-0">
-              <p className="text-[9px] text-muted-foreground uppercase tracking-widest">Tebakanmu</p>
-              <p className="font-display text-base uppercase tracking-wider truncate text-primary">{pendingItem.name}</p>
-            </div>
-            <div className="flex gap-2 shrink-0">
-              <button onClick={() => { setPendingGuess(null); setGuessingMode(true); }} className="px-3 py-2 border border-border rounded text-xs text-muted-foreground hover:text-foreground transition-colors flex items-center gap-1"><X className="w-3 h-3" /> Ganti</button>
-              <button onClick={handleConfirmGuess} className="clip-angle bg-primary text-primary-foreground text-xs sm:text-sm font-display uppercase tracking-wider px-4 py-2 hover:bg-primary/90 transition-all duration-300 active:scale-[0.97] flex items-center gap-1"><Check className="w-3.5 h-3.5" /> Kunci</button>
+              <p className="text-[9px] text-muted-foreground uppercase tracking-widest">Item dipilih</p>
+              <p className="font-display text-sm uppercase tracking-wider truncate text-primary">{pendingItem.name}</p>
             </div>
           </div>
         </div>
       )}
 
-      {/* Grid Item */}
-      <main className="flex-1 overflow-auto p-2 sm:p-3">
+      {/* Grid — padding-bottom dinamis agar item paling bawah tidak tertutup footer */}
+      <main
+        className="flex-1 overflow-auto p-2 sm:p-3"
+        style={{ paddingBottom: `${footerHeight + 16}px` }}
+      >
         {!isMyTurn && !gameOver && (
           <div className="text-center mb-2">
             <p className="text-xs text-muted-foreground/50 italic">Card dinonaktifkan — tunggu giliranmu</p>
@@ -459,13 +469,13 @@ const OnlineGameBoard = () => {
               <button
                 key={item.id}
                 onClick={() => handleToggleEliminate(item.id)}
-                disabled={gameOver || (maxReached && !guessingMode) || (myCorrect && !guessingMode) || (!isMyTurn)}
+                disabled={gameOver || (maxReached && !guessingMode && !pendingGuess) || (myCorrect && !guessingMode && !pendingGuess) || (!isMyTurn)}
                 title={!isMyTurn ? `Giliran ${opponentName ?? 'lawan'}` : undefined}
                 className={`relative clip-angle p-0.5 transition-all duration-300 group animate-slide-up
                   ${isPending    ? 'bg-primary jkt-glow ring-2 ring-primary scale-[1.03]'
                   : isEliminated ? 'bg-border/30 scale-[0.97]'
                   : isDisabled   ? 'bg-border/20 cursor-not-allowed'
-                  : guessingMode ? 'bg-border hover:bg-primary/40 hover:scale-[1.03]'
+                  : (guessingMode || pendingGuess) ? 'bg-border hover:bg-primary/40 hover:scale-[1.03]'
                                  : 'bg-border hover:bg-muted-foreground/30 hover:scale-[1.03]'}
                   disabled:cursor-not-allowed`}
                 style={{ animationDelay: `${index * 7}ms` }}
@@ -488,7 +498,6 @@ const OnlineGameBoard = () => {
                   </div>
                 )}
 
-                {/* Lock icon saat bukan giliran */}
                 {isDisabled && !isEliminated && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
                     <div className="bg-background/30 rounded-full p-1">
@@ -499,7 +508,7 @@ const OnlineGameBoard = () => {
                   </div>
                 )}
 
-                {guessingMode && !isEliminated && !isDisabled && (
+                {(guessingMode || !!pendingGuess) && !isEliminated && !isDisabled && !isPending && (
                   <div className="absolute inset-0 flex items-center justify-center pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                     <Heart className="w-5 h-5 text-primary drop-shadow-[0_0_6px_hsl(355_100%_63%/0.9)]" />
                   </div>
@@ -510,21 +519,65 @@ const OnlineGameBoard = () => {
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="border-t border-border px-3 py-3 shrink-0">
+      {/* ── STICKY FOOTER ── */}
+      <footer ref={footerRef} className="fixed bottom-0 left-0 right-0 z-30 border-t border-border bg-background/95 backdrop-blur-sm px-3 py-3">
         <div className="max-w-5xl mx-auto space-y-2">
 
-          {/* Giliran saya — belum tebak */}
-          {!gameOver && !guessingMode && !pendingGuess && isMyTurn && !myCorrect && !maxReached && (
+          {!gameOver && isMyTurn && !myCorrect && !maxReached && (
             <div className="flex gap-2">
-              <button onClick={handleStartGuess} className="flex-1 clip-angle bg-primary text-primary-foreground font-display text-lg uppercase tracking-widest py-3 hover:bg-primary/90 transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-[0_0_25px_hsl(355_100%_63%/0.4)] active:scale-[0.97]">
-                <Heart className="w-4 h-4" /> Tebak Sekarang
-              </button>
+
+              {/* State 1: Tebak Sekarang */}
+              {!isInGuessFlow && (
+                <button
+                  onClick={handleStartGuess}
+                  className="flex-1 clip-angle bg-primary text-primary-foreground font-display text-lg uppercase tracking-widest py-3 hover:bg-primary/90 transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-[0_0_25px_hsl(355_100%_63%/0.4)] active:scale-[0.97]"
+                >
+                  <Heart className="w-4 h-4" /> Tebak Sekarang
+                </button>
+              )}
+
+              {/* State 2: Batal Tebak (belum pilih item) */}
+              {isInGuessFlow && !pendingGuess && (
+                <button
+                  onClick={handleCancelGuess}
+                  className="flex-1 clip-angle bg-secondary border border-border text-secondary-foreground font-display text-lg uppercase tracking-widest py-3 hover:bg-muted-foreground/20 transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.97]"
+                >
+                  <X className="w-4 h-4" /> Batal Tebak
+                </button>
+              )}
+
+              {/* State 3: Ubah Tebakkan + Kunci Tebakkan */}
+              {isInGuessFlow && !!pendingGuess && (
+                <>
+                  <button
+                    onClick={handleChangeGuess}
+                    className="clip-angle bg-secondary border border-primary/40 text-primary font-display text-sm uppercase tracking-wider px-3 sm:px-4 py-3 hover:bg-primary/10 transition-all duration-300 flex items-center justify-center gap-1.5 active:scale-[0.97] shrink-0"
+                    title="Ubah pilihan member tebakkan"
+                  >
+                    <RefreshCw className="w-3.5 h-3.5 shrink-0" />
+                    <span className="hidden xs:inline sm:inline whitespace-nowrap">Ubah Tebakkan</span>
+                  </button>
+                  <button
+                    onClick={handleConfirmGuess}
+                    className="flex-1 clip-angle bg-primary text-primary-foreground font-display text-lg uppercase tracking-widest py-3 hover:bg-primary/90 transition-all duration-300 flex items-center justify-center gap-2 hover:shadow-[0_0_25px_hsl(355_100%_63%/0.4)] active:scale-[0.97]"
+                  >
+                    <Check className="w-4 h-4" /> Kunci Tebakkan
+                  </button>
+                </>
+              )}
+
+              {/* Tombol Ganti Giliran */}
               <button
                 onClick={handleSwitchTurn}
-                disabled={anyPlayerLocked}
-                title={anyPlayerLocked ? 'Tidak bisa ganti giliran — jawaban sudah dikunci' : 'Serahkan giliran ke lawan'}
-                className="clip-angle bg-secondary border border-border text-secondary-foreground font-display text-sm uppercase tracking-wider px-4 py-3 hover:bg-muted-foreground/20 transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.97] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-secondary"
+                disabled={anyPlayerLocked || isInGuessFlow}
+                title={
+                  isInGuessFlow
+                    ? 'Tidak bisa ganti giliran saat mode tebak aktif'
+                    : anyPlayerLocked
+                    ? 'Tidak bisa ganti giliran — jawaban sudah dikunci'
+                    : 'Serahkan giliran ke lawan'
+                }
+                className="clip-angle bg-secondary border border-border text-secondary-foreground font-display text-sm uppercase tracking-wider px-4 py-3 hover:bg-muted-foreground/20 transition-all duration-300 flex items-center justify-center gap-2 active:scale-[0.97] disabled:opacity-30 disabled:cursor-not-allowed disabled:hover:bg-secondary shrink-0"
               >
                 <ArrowLeftRight className="w-4 h-4" />
                 <span className="hidden sm:inline">Ganti</span>
@@ -532,14 +585,12 @@ const OnlineGameBoard = () => {
             </div>
           )}
 
-          {/* Giliran saya — sudah tebak / max reached, giliran sudah otomatis berpindah */}
           {!gameOver && isMyTurn && (myCorrect || maxReached) && (
             <div className="text-center py-3 text-muted-foreground font-display text-sm uppercase tracking-wider animate-scale-in border border-dashed border-border/30 rounded">
               {myCorrect ? 'Tebakan benar — menunggu lawan menebak' : 'Tebakan habis — menunggu lawan menebak'}
             </div>
           )}
 
-          {/* Bukan giliran saya */}
           {!gameOver && !isMyTurn && (
             <div className="text-center py-3 text-muted-foreground font-display text-sm uppercase tracking-wider animate-scale-in border border-dashed border-border/30 rounded">
               Menunggu giliran {opponentName ?? 'lawan'}...

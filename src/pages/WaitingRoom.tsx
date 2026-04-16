@@ -113,9 +113,17 @@ const WaitingRoom = () => {
     generations: filterGens,
     statuses: filterStatuses,
   };
-  const modeString = JSON.stringify(currentFilter);
+  const modeString  = JSON.stringify(currentFilter);
   const modeItems   = getItemsForMode(room.mode || modeString);
-  const secretItem  = modeItems.find(i => i.id === mySecret);
+
+  // FIX: cari secretItem dari modeItems dulu, jika tidak ketemu cari dari SEMUA member
+  // Ini mengatasi bug di mana room.mode belum terupdate saat selectedSecret sudah dipilih
+  const allItems    = getItemsForMode('all');
+  const secretItem  = modeItems.find(i => i.id === mySecret) ?? allItems.find(i => i.id === mySecret);
+
+  // Saat picker terbuka, item yang ditampilkan selalu dari modeItems (filter aktif)
+  // secretItem untuk preview & display tetap dicari dari allItems sebagai fallback
+  const selectedItem = modeItems.find(i => i.id === selectedSecret) ?? allItems.find(i => i.id === selectedSecret);
 
   const handleCopy = () => {
     navigator.clipboard.writeText(room.code);
@@ -421,14 +429,15 @@ const WaitingRoom = () => {
                   })}
                 </div>
 
-                {selectedSecret && (
+                {/* FIX: gunakan selectedItem (bukan secretItem) untuk preview saat picker terbuka */}
+                {selectedSecret && selectedItem && (
                   <div className="flex items-center gap-3 bg-secondary/50 rounded p-3 animate-scale-in">
-                    <div className="w-12 h-12 rounded overflow-hidden border-2 border-primary flex-shrink-0" style={{ backgroundColor: secretItem?.color + '15' }}>
-                      <img src={secretItem?.image} alt="" className="w-full h-full object-cover" />
+                    <div className="w-12 h-12 rounded overflow-hidden border-2 border-primary flex-shrink-0" style={{ backgroundColor: selectedItem.color + '15' }}>
+                      <img src={selectedItem.image} alt={selectedItem.name} className="w-full h-full object-cover" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-sm font-semibold text-foreground">{secretItem?.name}</p>
-                      <p className="text-[10px] text-muted-foreground">{secretItem?.subtitle} · {secretItem?.detail}</p>
+                      <p className="text-sm font-semibold text-foreground">{selectedItem.name}</p>
+                      <p className="text-[10px] text-muted-foreground">{selectedItem.subtitle} · {selectedItem.detail}</p>
                     </div>
                     <button
                       onClick={handleLockSecret}
@@ -443,12 +452,12 @@ const WaitingRoom = () => {
           </div>
         )}
 
-        {/* My secret display (locked) */}
+        {/* My secret display (locked) — FIX: pakai secretItem dengan allItems fallback */}
         {myReady && secretItem && (
           <div className="animate-scale-in">
             <div className="flex items-center gap-3 bg-accent/10 border border-accent/30 rounded p-3">
               <div className="w-12 h-12 rounded overflow-hidden border-2 border-accent flex-shrink-0">
-                <img src={secretItem.image} alt="" className="w-full h-full object-cover" />
+                <img src={secretItem.image} alt={secretItem.name} className="w-full h-full object-cover" />
               </div>
               <div className="flex-1">
                 <p className="text-[10px] text-accent uppercase tracking-widest">Member Rahasiamu</p>
