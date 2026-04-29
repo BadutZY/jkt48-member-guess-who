@@ -38,30 +38,30 @@ export const members: Member[] = [
 
   // ═══ TEAM DREAM ═══
   // Gen 6
-  { id: "gita", name: "Gita Sekar Andarini", nickname: "Gita", team: "DREAM", generation: 6, status: "MEMBER", image: "/members/gita_sekar_andarini.jpg", color: "#2196F3" },
+  { id: "gita", name: "Gita Sekar Andarini", nickname: "Gita", team: "DREAM", generation: 6, status: "MEMBER", image: "/members/dream/gita_sekar_andarini.jpg", color: "#2196F3" },
 
   // Gen 7
-  { id: "febriola", name: "Febriola Sinambela", nickname: "Olla", team: "DREAM", generation: 7, status: "MEMBER", image: "/members/febriola_sinambela.jpg", color: "#2196F3" },
-  { id: "freya", name: "Freya Jayawardana", nickname: "Freya", team: "DREAM", generation: 7, status: "MEMBER", image: "/members/freya_jayawardana.jpg", color: "#2196F3" },
-  { id: "helisma", name: "Helisma Putri", nickname: "Eli", team: "DREAM", generation: 7, status: "MEMBER", image: "/members/helisma_putri.jpg", color: "#2196F3" },
+  { id: "febriola", name: "Febriola Sinambela", nickname: "Olla", team: "DREAM", generation: 7, status: "MEMBER", image: "/members/dream/febriola_sinambela.jpg", color: "#2196F3" },
+  { id: "freya", name: "Freya Jayawardana", nickname: "Freya", team: "DREAM", generation: 7, status: "MEMBER", image: "/members/dream/freya_jayawardana.jpg", color: "#2196F3" },
+  { id: "helisma", name: "Helisma Putri", nickname: "Eli", team: "DREAM", generation: 7, status: "MEMBER", image: "/members/dream/helisma_putri.jpg", color: "#2196F3" },
 
   // Gen 9
-  { id: "marsha", name: "Marsha Lenathea", nickname: "Marsha", team: "DREAM", generation: 9, status: "MEMBER", image: "/members/marsha_lenathea.jpg", color: "#2196F3" },
+  { id: "marsha", name: "Marsha Lenathea", nickname: "Marsha", team: "DREAM", generation: 9, status: "MEMBER", image: "/members/dream/marsha_lenathea.jpg", color: "#2196F3" },
 
   // Gen 10
-  { id: "gabriela", name: "Gabriela Abigail", nickname: "Ella", team: "DREAM", generation: 10, status: "MEMBER", image: "/members/gabriela_abigail.jpg", color: "#2196F3" },
-  { id: "jesslyn", name: "Jesslyn Elly", nickname: "Lyn", team: "DREAM", generation: 10, status: "MEMBER", image: "/members/jesslyn_elly.jpg", color: "#2196F3" },
+  { id: "gabriela", name: "Gabriela Abigail", nickname: "Ella", team: "DREAM", generation: 10, status: "MEMBER", image: "/members/dream/gabriela_abigail.jpg", color: "#2196F3" },
+  { id: "jesslyn", name: "Jesslyn Elly", nickname: "Lyn", team: "DREAM", generation: 10, status: "MEMBER", image: "/members/dream/jesslyn_elly.jpg", color: "#2196F3" },
 
   // Gen 11
-  { id: "chelsea", name: "Chelsea Davina", nickname: "Chelsea", team: "DREAM", generation: 11, status: "MEMBER", image: "/members/chelsea_davina.jpg", color: "#2196F3" },
-  { id: "greesella", name: "Greesella Adhalia", nickname: "Greesel", team: "DREAM", generation: 11, status: "MEMBER", image: "/members/greesella_adhalia.jpg", color: "#2196F3" },
-  { id: "gendis", name: "Gendis Mayrannisa", nickname: "Gendis", team: "DREAM", generation: 11, status: "MEMBER", image: "/members/gendis_mayrannisa.jpg", color: "#2196F3" },
+  { id: "chelsea", name: "Chelsea Davina", nickname: "Chelsea", team: "DREAM", generation: 11, status: "MEMBER", image: "/members/dream/chelsea_davina.jpg", color: "#2196F3" },
+  { id: "greesella", name: "Greesella Adhalia", nickname: "Greesel", team: "DREAM", generation: 11, status: "MEMBER", image: "/members/dream/greesella_adhalia.jpg", color: "#2196F3" },
+  { id: "gendis", name: "Gendis Mayrannisa", nickname: "Gendis", team: "DREAM", generation: 11, status: "MEMBER", image: "/members/dream/gendis_mayrannisa.jpg", color: "#2196F3" },
 
   // Gen 12
-  { id: "adeline", name: "Adeline Wijaya", nickname: "Delynn", team: "DREAM", generation: 12, status: "MEMBER", image: "/members/adeline_wijaya.jpg", color: "#2196F3" },
-  { id: "nina", name: "Nina Tutachia", nickname: "Nachia", team: "DREAM", generation: 12, status: "MEMBER", image: "/members/nina_tutachia.jpg", color: "#2196F3" },
-  { id: "oline", name: "Oline Manuel", nickname: "Oline", team: "DREAM", generation: 12, status: "MEMBER", image: "/members/oline_manuel.jpg", color: "#2196F3" },
-  { id: "shabilqis", name: "Shabilqis Naila", nickname: "Nala", team: "DREAM", generation: 12, status: "MEMBER", image: "/members/shabilqis_naila.jpg", color: "#2196F3" },
+  { id: "adeline", name: "Adeline Wijaya", nickname: "Delynn", team: "DREAM", generation: 12, status: "MEMBER", image: "/members/dream/adeline_wijaya.jpg", color: "#2196F3" },
+  { id: "nina", name: "Nina Tutachia", nickname: "Nachia", team: "DREAM", generation: 12, status: "MEMBER", image: "/members/dream/nina_tutachia.jpg", color: "#2196F3" },
+  { id: "oline", name: "Oline Manuel", nickname: "Oline", team: "DREAM", generation: 12, status: "MEMBER", image: "/members/dream/oline_manuel.jpg", color: "#2196F3" },
+  { id: "shabilqis", name: "Shabilqis Naila", nickname: "Nala", team: "DREAM", generation: 12, status: "MEMBER", image: "/members/dream/shabilqis_naila.jpg", color: "#2196F3" },
 
   // ═══ TEAM PASSION ═══
   // Gen 3
