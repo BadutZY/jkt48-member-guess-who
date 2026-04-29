@@ -431,7 +431,7 @@ const OnlineGameBoard = () => {
       {guessingMode && !pendingGuess && (
         <div className="bg-primary/10 border-b border-primary/30 px-4 py-2 text-center text-sm text-primary animate-slide-down shrink-0 flex items-center justify-center gap-3">
           <Heart className="w-4 h-4 shrink-0" />
-          <span>Mode Tebak — Klik item yang kamu duga milik lawan</span>
+          <span>Tebak Milik Lawanmu</span>
         </div>
       )}
 
@@ -457,7 +457,7 @@ const OnlineGameBoard = () => {
       >
         {!isMyTurn && !gameOver && (
           <div className="text-center mb-2">
-            <p className="text-xs text-muted-foreground/50 italic">Card dinonaktifkan — tunggu giliranmu</p>
+            <p className="text-xs text-muted-foreground/50 italic">Tunggu giliranmu untuk menebak</p>
           </div>
         )}
         <div className="grid grid-cols-3 sm:grid-cols-4 md:grid-cols-5 lg:grid-cols-6 gap-1.5 sm:gap-2 max-w-5xl mx-auto">
