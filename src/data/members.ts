@@ -65,33 +65,33 @@ export const members: Member[] = [
 
   // ═══ TEAM PASSION ═══
   // Gen 3
-  { id: "feni", name: "Feni Fitriyanti", nickname: "Feni", team: "PASSION", generation: 3, status: "MEMBER", image: "/members/feni_fitriyanti.jpg", color: "#FF5722" },
+  { id: "feni", name: "Feni Fitriyanti", nickname: "Feni", team: "PASSION", generation: 3, status: "MEMBER", image: "/members/passion/feni_fitriyanti.jpg", color: "#FF5722" },
 
   // Gen 7
-  { id: "angelina", name: "Angelina Christy", nickname: "Christy", team: "PASSION", generation: 7, status: "MEMBER", image: "/members/angelina_christy.jpg", color: "#FF5722" },
-  { id: "jessica", name: "Jessica Chandra", nickname: "Jessi", team: "PASSION", generation: 7, status: "MEMBER", image: "/members/jessica_chandra.jpg", color: "#FF5722" },
-  { id: "mutiara", name: "Mutiara Azzahra", nickname: "Muthe", team: "PASSION", generation: 7, status: "MEMBER", image: "/members/mutiara_azzahra.jpg", color: "#FF5722" },
+  { id: "angelina", name: "Angelina Christy", nickname: "Christy", team: "PASSION", generation: 7, status: "MEMBER", image: "/members/passion/angelina_christy.jpg", color: "#FF5722" },
+  { id: "jessica", name: "Jessica Chandra", nickname: "Jessi", team: "PASSION", generation: 7, status: "MEMBER", image: "/members/passion/jessica_chandra.jpg", color: "#FF5722" },
+  { id: "mutiara", name: "Mutiara Azzahra", nickname: "Muthe", team: "PASSION", generation: 7, status: "MEMBER", image: "/members/passion/mutiara_azzahra.jpg", color: "#FF5722" },
 
   // Gen 8
-  { id: "cornelia", name: "Cornelia Vanisa", nickname: "Oniel", team: "PASSION", generation: 8, status: "MEMBER", image: "/members/cornelia_vanisa.jpg", color: "#FF5722" },
-  { id: "lulu", name: "Lulu Salsabila", nickname: "Lulu", team: "PASSION", generation: 8, status: "MEMBER", image: "/members/lulu_salsabila.jpg", color: "#FF5722" },
+  { id: "cornelia", name: "Cornelia Vanisa", nickname: "Oniel", team: "PASSION", generation: 8, status: "MEMBER", image: "/members/passion/cornelia_vanisa.jpg", color: "#FF5722" },
+  { id: "lulu", name: "Lulu Salsabila", nickname: "Lulu", team: "PASSION", generation: 8, status: "MEMBER", image: "/members/passion/lulu_salsabila.jpg", color: "#FF5722" },
 
   // Gen 9
-  { id: "kathrina", name: "Kathrina Irene", nickname: "Kathrina", team: "PASSION", generation: 9, status: "MEMBER", image: "/members/kathrina_irene.jpg", color: "#FF5722" },
+  { id: "kathrina", name: "Kathrina Irene", nickname: "Kathrina", team: "PASSION", generation: 9, status: "MEMBER", image: "/members/passion/kathrina_irene.jpg", color: "#FF5722" },
 
   // Gen 10
-  { id: "raisha", name: "Raisha Syifa", nickname: "Raisha", team: "PASSION", generation: 10, status: "MEMBER", image: "/members/raisha_syifa.jpg", color: "#FF5722" },
+  { id: "raisha", name: "Raisha Syifa", nickname: "Raisha", team: "PASSION", generation: 10, status: "MEMBER", image: "/members/passion/raisha_syifa.jpg", color: "#FF5722" },
 
   // Gen 11
-  { id: "dena", name: "Dena Natalia", nickname: "Danella", team: "PASSION", generation: 11, status: "MEMBER", image: "/members/dena_natalia.jpg", color: "#FF5722" },
-  { id: "desy", name: "Desy Natalia", nickname: "Daisy", team: "PASSION", generation: 11, status: "MEMBER", image: "/members/desy_natalia.jpg", color: "#FF5722" },
+  { id: "dena", name: "Dena Natalia", nickname: "Danella", team: "PASSION", generation: 11, status: "MEMBER", image: "/members/passion/dena_natalia.jpg", color: "#FF5722" },
+  { id: "desy", name: "Desy Natalia", nickname: "Daisy", team: "PASSION", generation: 11, status: "MEMBER", image: "/members/passion/desy_natalia.jpg", color: "#FF5722" },
 
   // Gen 12
-  { id: "abigail", name: "Abigail Rachel", nickname: "Aralie", team: "PASSION", generation: 12, status: "MEMBER", image: "/members/abigail_rachel.jpg", color: "#FF5722" },
-  { id: "catherina", name: "Catherina Vallencia", nickname: "Erine", team: "PASSION", generation: 12, status: "MEMBER", image: "/members/catherina_vallencia.jpg", color: "#FF5722" },
-  { id: "michelle_l", name: "Michelle Levia", nickname: "Levi", team: "PASSION", generation: 12, status: "MEMBER", image: "/members/michelle_levia.jpg", color: "#FF5722" },
-  { id: "ribka", name: "Ribka Budiman", nickname: "Ribka", team: "PASSION", generation: 12, status: "MEMBER", image: "/members/ribka_budiman.jpg", color: "#FF5722" },
-  { id: "victoria", name: "Victoria Kimberly", nickname: "Kimmy", team: "PASSION", generation: 12, status: "MEMBER", image: "/members/victoria_kimberly.jpg", color: "#FF5722" },
+  { id: "abigail", name: "Abigail Rachel", nickname: "Aralie", team: "PASSION", generation: 12, status: "MEMBER", image: "/members/passion/abigail_rachel.jpg", color: "#FF5722" },
+  { id: "catherina", name: "Catherina Vallencia", nickname: "Erine", team: "PASSION", generation: 12, status: "MEMBER", image: "/members/passion/catherina_vallencia.jpg", color: "#FF5722" },
+  { id: "michelle_l", name: "Michelle Levia", nickname: "Levi", team: "PASSION", generation: 12, status: "MEMBER", image: "/members/passion/michelle_levia.jpg", color: "#FF5722" },
+  { id: "ribka", name: "Ribka Budiman", nickname: "Ribka", team: "PASSION", generation: 12, status: "MEMBER", image: "/members/passion/ribka_budiman.jpg", color: "#FF5722" },
+  { id: "victoria", name: "Victoria Kimberly", nickname: "Kimmy", team: "PASSION", generation: 12, status: "MEMBER", image: "/members/passion/victoria_kimberly.jpg", color: "#FF5722" },
 
   // ═══ TRAINEE ═══
   // Gen 13
