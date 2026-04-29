@@ -95,27 +95,27 @@ export const members: Member[] = [
 
   // ═══ TRAINEE ═══
   // Gen 13
-  { id: "astrella", name: "Astrella Virgiananda", nickname: "Virgi", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/Astrella_Virgiananda.jpg", color: "#fce73e" },
-  { id: "aulia", name: "Aulia Riza", nickname: "Auwia", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/Aulia_Riza.jpg", color: "#fce73e" },
-  { id: "bong", name: "Bong Aprilli", nickname: "Rilly", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/Bong_Aprilli.jpg", color: "#fce73e" },
-  { id: "hagia", name: "Hagia Sopia", nickname: "Giaa", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/Hagia_Sopia.jpg", color: "#fce73e" },
-  { id: "humaira", name: "Humaira Ramadhani", nickname: "Maira", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/Humaira_Ramadhani.jpg", color: "#fce73e" },
-  { id: "jacqueline", name: "Jacqueline Immanuela", nickname: "Ekin", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/Jacqueline_Immanuela.jpg", color: "#fce73e" },
-  { id: "jemima", name: "Jemima Evodie", nickname: "Jemima", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/Jemima_Evodie.jpg", color: "#fce73e" },
-  { id: "mikaela", name: "Mikaela Kusjanto", nickname: "Mikaela", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/Mikaela_Kusjanto.jpg", color: "#fce73e" },
-  { id: "nurintan", name: "Nur Intan", nickname: "Intan", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/Nur_Intan.jpg", color: "#fce73e" },
+  { id: "astrella", name: "Astrella Virgiananda", nickname: "Virgi", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/trainee/Astrella_Virgiananda.jpg", color: "#fce73e" },
+  { id: "aulia", name: "Aulia Riza", nickname: "Auwia", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/trainee/Aulia_Riza.jpg", color: "#fce73e" },
+  { id: "bong", name: "Bong Aprilli", nickname: "Rilly", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/trainee/Bong_Aprilli.jpg", color: "#fce73e" },
+  { id: "hagia", name: "Hagia Sopia", nickname: "Giaa", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/trainee/Hagia_Sopia.jpg", color: "#fce73e" },
+  { id: "humaira", name: "Humaira Ramadhani", nickname: "Maira", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/trainee/Humaira_Ramadhani.jpg", color: "#fce73e" },
+  { id: "jacqueline", name: "Jacqueline Immanuela", nickname: "Ekin", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/trainee/Jacqueline_Immanuela.jpg", color: "#fce73e" },
+  { id: "jemima", name: "Jemima Evodie", nickname: "Jemima", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/trainee/Jemima_Evodie.jpg", color: "#fce73e" },
+  { id: "mikaela", name: "Mikaela Kusjanto", nickname: "Mikaela", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/trainee/Mikaela_Kusjanto.jpg", color: "#fce73e" },
+  { id: "nurintan", name: "Nur Intan", nickname: "Intan", team: "TRAINEE", generation: 13, status: "TRAINEE", image: "/members/trainee/Nur_Intan.jpg", color: "#fce73e" },
 
   // Gen 14
-  { id: "afera", name: "Afera Thalia", nickname: "Fera", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/afera_thalia.jpg", color: "#9C27B0" },
-  { id: "carissa", name: "Carissa Dini", nickname: "Carissa", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/carissa_dini.jpg", color: "#9C27B0" },
-  { id: "christabella", name: "Christabella Bonita", nickname: "Bella", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/christabella_bonita.jpg", color: "#9C27B0" },
-  { id: "fahira", name: "Fahira Putri", nickname: "Fahira", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/fahira_putri.jpg", color: "#9C27B0" },
-  { id: "fatimah", name: "Fatimah Azzahra", nickname: "Rara", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/fatimah_azzahra.jpg", color: "#9C27B0" },
-  { id: "heidi", name: "Heidi Suyangga", nickname: "Heidi", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/heidi_suyangga.jpg", color: "#9C27B0" },
-  { id: "maxine", name: "Maxine Faye", nickname: "Maxine", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/maxine_faye_lee.jpg", color: "#9C27B0" },
-  { id: "putry", name: "Putry Jazyta", nickname: "Jazzy", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/putry_jazyta.jpg", color: "#9C27B0" },
-  { id: "ralyne", name: "Ralyne Van Irwan", nickname: "Ralyne", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/ralyne_van_irwan.jpg", color: "#9C27B0" },
-  { id: "sona", name: "Sona Kalyana", nickname: "Sona", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/sona_kalyana.jpg", color: "#9C27B0" },
+  { id: "afera", name: "Afera Thalia", nickname: "Fera", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/trainee/afera_thalia.jpg", color: "#9C27B0" },
+  { id: "carissa", name: "Carissa Dini", nickname: "Carissa", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/trainee/carissa_dini.jpg", color: "#9C27B0" },
+  { id: "christabella", name: "Christabella Bonita", nickname: "Bella", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/trainee/christabella_bonita.jpg", color: "#9C27B0" },
+  { id: "fahira", name: "Fahira Putri", nickname: "Fahira", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/trainee/fahira_putri.jpg", color: "#9C27B0" },
+  { id: "fatimah", name: "Fatimah Azzahra", nickname: "Rara", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/trainee/fatimah_azzahra.jpg", color: "#9C27B0" },
+  { id: "heidi", name: "Heidi Suyangga", nickname: "Heidi", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/trainee/heidi_suyangga.jpg", color: "#9C27B0" },
+  { id: "maxine", name: "Maxine Faye", nickname: "Maxine", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/trainee/maxine_faye_lee.jpg", color: "#9C27B0" },
+  { id: "putry", name: "Putry Jazyta", nickname: "Jazzy", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/trainee/putry_jazyta.jpg", color: "#9C27B0" },
+  { id: "ralyne", name: "Ralyne Van Irwan", nickname: "Ralyne", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/trainee/ralyne_van_irwan.jpg", color: "#9C27B0" },
+  { id: "sona", name: "Sona Kalyana", nickname: "Sona", team: "TRAINEE", generation: 14, status: "TRAINEE", image: "/members/trainee/sona_kalyana.jpg", color: "#9C27B0" },
 ];
 
 // Filter types
